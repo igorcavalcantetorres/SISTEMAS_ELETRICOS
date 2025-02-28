@@ -50,9 +50,20 @@ Ia_ang = angle(I_seq(1))*180/pi;
 Ib_ang = angle(I_seq(2))*180/pi;
 Ic_ang = angle(I_seq(3))*180/pi;
 
-mensagem = sprintf('Módulo Van: %.2f -  Ângulo Van: %.2f°\nMódulo Vbn: %.2f -  Ângulo Vbn: %.2f°\nMódulo Vcn: %.2f -  Ângulo Vcn: %.2f° - \nMódulo Ia: %.2f -  Ângulo Ia: %.2f°',Van_mod,Van_ang,Vbn_mod,Vbn_ang,Vcn_mod,Vcn_ang,Ia_mod,Ia_ang);
+mensagem = sprintf(['Módulo Van: %.2f -  Ângulo Van: %.2f°\n'...
+                    'Módulo Vbn: %.2f -  Ângulo Vbn: %.2f°\n'...
+                    'Módulo Vcn: %.2f -  Ângulo Vcn: %.2f° -\n'...
+                    'Módulo Vab: %.2f -  Ângulo Vab: %.2f° -\n'...
+                    'Módulo Vbc: %.2f -  Ângulo Vbc: %.2f° -\n'...
+                    'Módulo Vca: %.2f -  Ângulo Vca: %.2f° -\n'...
+                    'Módulo Ia: %.2f -  Ângulo Ia: %.2f° - \n' ...
+                    'Módulo Ib: %.2f -  Ângulo Ib: %.2f° - \n' ...
+                    'Módulo Ic: %.2f -  Ângulo Ic: %.2f°'], ...
+                    Van_mod, Van_ang, Vbn_mod, Vbn_ang, Vcn_mod, Vcn_ang, ... 
+                    Vab_mod, Vab_ang, Vbc_mod, Vbc_ang, Vca_mod, Vca_ang, ...         
+                    Ia_mod, Ia_ang, Ib_mod, Ib_ang, Ic_mod, Ic_ang);
 
-msgbox(mensagem, 'Tensões de fase');
+msgbox(mensagem, 'Relatório tensões e correntes');
 
 %Exibição do diagrama fasorial das tensões e corrente de fase
 figure
@@ -60,10 +71,13 @@ compass(Van_mod,Van_ang,'r');
 hold on;
 compass(Van_mod*cosd(angle(V_f_seq(2))*180/pi),Van_mod*sind(angle(V_f_seq(2))*180/pi),'g');
 compass(Van_mod*cosd(angle(V_f_seq(3))*180/pi),Van_mod*sind(angle(V_f_seq(3))*180/pi),'y');
+x=compass(Vab_mod*cosd(angle(Vab_seq(1))*180/pi),Vab_mod*sind(angle(Vab_seq(1))*180/pi),'r');
+y=compass(Vbc_mod*cosd(angle(Vab_seq(2))*180/pi),Vbc_mod*sind(angle(Vab_seq(2))*180/pi),'g');
+z=compass(Vca_mod*cosd(angle(Vab_seq(3))*180/pi),Vca_mod*sind(angle(Vab_seq(3))*180/pi),'y');
 h=compass(Ia_mod*cosd(angle(I_seq(1))*180/pi),Ia_mod*sind(angle(I_seq(1))*180/pi),'r');
 j=compass(Ia_mod*cosd(angle(I_seq(2))*180/pi),Ia_mod*sind(angle(I_seq(2))*180/pi),'g');
 k=compass(Ia_mod*cosd(angle(I_seq(3))*180/pi),Ia_mod*sind(angle(I_seq(3))*180/pi),'y');
-legend('V_{a}','V_{b}','V_{c}','I_{a}','I_{b}','I_{c}','Location','west','Orientation','vertically');
+legend('V_{a}','V_{b}','V_{c}','V_{ab}','V_{bc}','V_{ca}','I_{a}','I_{b}','I_{c}','Location','west','Orientation','vertically');
 lineHandles = h(1);
 lineHandless = j(1);
 lineHandlesss = k(1);
