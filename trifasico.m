@@ -12,6 +12,13 @@ C = input('Informe a sequência de fase: 1(positiva) 2(negativa)');
 switch C
 
     case 1
+linha_a = input('Informe a impedância de cada linha A: ');
+linha_b = input('Informe a impedância de cada linha B: ');
+linha_c = input('Informe a impedância de cada linha C: ');
+carga_a = input('Informe a impedância da carga na fase A: ');
+carga_b = input('Informe a impedância da carga na fase B: ');
+carga_c = input('Informe a impedância da carga na fase C: ');
+
 alpha_exp = [1 -0.5+sqrt(3)/2i -0.5-sqrt(3)/2i]; %Matriz de sequência positiva
 V_f_seq = V_f*alpha_exp; %Composição da matriz de tensões de fase sequencial
 cte = 1.5+0.866025404i; %relação para a tensão de linha
@@ -29,10 +36,12 @@ Vca_mod = abs(Vab_seq(3));
 Vab_ang = angle(Vab_seq(1))*180/pi;
 Vbc_ang = angle(Vab_seq(2))*180/pi;
 Vca_ang = angle(Vab_seq(3))*180/pi;
+[V_fase_seq] = Van_mod*[alpha_exp];
+
 
 %Parâmetros de linha e da carga
-Z_carga_seq = [3+4i 3+4i 3+4i];
-Z_linha_seq = [0.2+0.5i 0.2+0.5i 0.2+0.5i];
+Z_carga_seq = [carga_a carga_b carga_c];
+Z_linha_seq = [linha_a linha_b linha_c];
 
 %Cálculo das correntes de linha
 Ia = Van_mod/(Z_linha_seq(1)+Z_carga_seq(1));
@@ -49,6 +58,7 @@ Ic_mod = abs(I_seq(3));
 Ia_ang = angle(I_seq(1))*180/pi;
 Ib_ang = angle(I_seq(2))*180/pi;
 Ic_ang = angle(I_seq(3))*180/pi;
+[pot_ativa] = abs([V_fase_seq].*[I_seq]);
 
 mensagem = sprintf(['Módulo Van: %.2f -  Ângulo Van: %.2f°\n'...
                     'Módulo Vbn: %.2f -  Ângulo Vbn: %.2f°\n'...
