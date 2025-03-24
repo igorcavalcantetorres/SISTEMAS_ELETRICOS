@@ -56,16 +56,16 @@ Ib_ang = angle(I_seq(2))*180/pi;
 Ic_ang = angle(I_seq(3))*180/pi;
 
 %Cálculo das potências
-pot_aparente = ([V_fase_seq].*(conj([I_seq])));
-Pa = real(pot_aparente(1))/1000;
-Qa = imag(pot_aparente(1))/1000;
-Pb = real(pot_aparente(2))/1000;
-Qb = imag(pot_aparente(2))/1000;
-Pc = real(pot_aparente(3))/1000;
-Qc = imag(pot_aparente(3))/1000;
-Sa = abs(pot_aparente(1))/1000;
-Sb = abs(pot_aparente(2))/1000;
-Sc = abs(pot_aparente(3))/1000;
+pot_complexa = ([V_fase_seq].*(conj([I_seq])));
+Pa = real(pot_complexa(1))/1000;
+Qa = imag(pot_complexa(1))/1000;
+Pb = real(pot_complexa(2))/1000;
+Qb = imag(pot_complexa(2))/1000;
+Pc = real(pot_complexa(3))/1000;
+Qc = imag(pot_complexa(3))/1000;
+Sa = abs(pot_complexa(1))/1000;
+Sb = abs(pot_complexa(2))/1000;
+Sc = abs(pot_complexa(3))/1000;
 Fp_a = Pa/Sa;
 Fp_b = Pb/Sb;
 Fp_c = Pc/Sc;
@@ -73,7 +73,17 @@ S3f = (sqrt(3)*Vab_mod*Ia_mod)/1000;
 theta = Van_ang-Ia_ang;
 P3f = (sqrt(3)*Vab_mod*Ia_mod*cos(theta))/1000;
 Q3f = (sqrt(3)*Vab_mod*Ia_mod*sin(theta))/1000;
-FP_t = P3f/S3f;
+FP_t = abs(P3f/S3f);
+
+if Ia_ang < Van_ang 
+    FP = 'Atrasado'; 
+else if Ia_ang > Van_ang
+    FP = 'Adiantado';
+    else
+        FP = 'Unitário';
+    end
+end
+
 
 mensagem = sprintf(['Módulo Van: %.2f V   Ângulo Van: %.2f° \n'...
                     'Módulo Vbn: %.2f V   Ângulo Vbn: %.2f° \n'...
@@ -93,7 +103,7 @@ mensagem = sprintf(['Módulo Van: %.2f V   Ângulo Van: %.2f° \n'...
                     'Aparente 3', char(966) ': %.2f kVA  \n'...     
                     'Ativa 3', char(966) ': %.2f kW \n'...
                     'Reativa 3', char(966) ': %.2f kVAr \n'...
-                    'Fator de potência 3:'],...
+                    'Fator de potência 3: %.2f  Natureza: %s'],...
                     Van_mod, Van_ang,...
                     Vbn_mod, Vbn_ang,...
                     Vcn_mod, Vcn_ang,...
@@ -108,9 +118,9 @@ mensagem = sprintf(['Módulo Van: %.2f V   Ângulo Van: %.2f° \n'...
                     S3f,...
                     P3f,...
                     Q3f,...
-                    1);
+                    FP_t, FP);
+                    
                  
-
 f = figure('Position', [500 300 350 600], 'Name', 'Relatório tensões e correntes', 'NumberTitle', 'off', 'MenuBar', 'none');
 
 % Criando o controle de texto
